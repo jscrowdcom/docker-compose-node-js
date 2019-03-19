@@ -3,6 +3,19 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = { users: [] }
+  }
+
+  async componentDidMount() {
+    const response = await fetch(`${process.env.REACT_APP_API_HOST}/users`)
+    const users = await response.json()
+
+    this.setState({ users })
+  }
+
   render() {
     return (
       <div className="App">
@@ -20,6 +33,7 @@ class App extends Component {
             Learn React
           </a>
         </header>
+        {this.state.users.map(user => <p key={user.id}>{JSON.stringify(user)}</p>)}
       </div>
     );
   }

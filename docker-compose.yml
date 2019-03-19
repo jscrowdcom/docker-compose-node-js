@@ -1,0 +1,19 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:11.2-alpine
+  api:
+    build: ./api
+    volumes:
+      - ./api:/home/node-user/app
+    ports:
+      - 127.0.0.1:9229:9229
+      - 127.0.0.1:3001:3000
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend:/home/node-user/app
+    environment:
+      REACT_APP_API_HOST: http://localhost:3001
+    ports:
+      - 127.0.0.1:3000:3000
